@@ -1,3 +1,5 @@
+import { int } from "../../customTypings";
+
 /**
  * Ponyfill for Java's Integer class.
  */
@@ -5,6 +7,21 @@ export default class Integer {
 
   static MIN_VALUE_32_BITS = -2147483648;
   static MAX_VALUE: number = Number.MAX_SAFE_INTEGER;
+
+  /**
+   * Parameter :
+   * x : the first int to compare
+   * y : the second int to compare
+   * Return :
+   * This method returns the value zero if (x==y),
+   * if (x < y) then it returns a value less than zero
+   * and if (x > y) then it returns a value greater than zero.
+   */
+  static compare(x: int, y: int): number {
+    if (x === y) return 0;
+    if (x < y) return -1;
+    if (x > y) return 1;
+  }
 
   public static numberOfTrailingZeros(i: number): number {
 
@@ -109,7 +126,7 @@ export default class Integer {
    * Converts A string to an integer.
    * @param s A string to convert into a number.
    * @param radix A value between 2 and 36 that specifies the base of the number in numString. If this argument is not supplied, strings with a prefix of '0x' are considered hexadecimal. All other strings are considered decimal.
-   */
+ */
   static parseInt(num: string, radix: number = undefined) {
     return parseInt(num, radix);
   }

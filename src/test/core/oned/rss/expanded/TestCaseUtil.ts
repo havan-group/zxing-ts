@@ -48,7 +48,7 @@ export default class TestCaseUtil {
 
   /**
    * @throws IOException
-   */
+ */
   private static getBufferedImage(path: string): SharpImage {
     let file = AbstractBlackBoxSpec.buildTestBase(path);
     return SharpImage.load(file, 0);
@@ -56,7 +56,7 @@ export default class TestCaseUtil {
 
   /**
    * @throws IOException
-   */
+ */
   static getBinaryBitmap(path: string): BinaryBitmap {
     let bufferedImage: SharpImage = TestCaseUtil.getBufferedImage(path);
     let luminanceSource: SharpImageLuminanceSource = new SharpImageLuminanceSource(bufferedImage);

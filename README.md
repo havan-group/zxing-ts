@@ -42,13 +42,13 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/2b9c6ae92412ee8e15a9/test_coverage)](https://codeclimate.com/github/zxing-js/library/test_coverage)
 [![BCH compliance](https://bettercodehub.com/edge/badge/zxing-js/library?branch=master)](https://bettercodehub.com/)
 
-## Demo
+## Library
 
-See [Live Preview](https://zxing-js.github.io/library/) in browser.
+This is the base library meant to be run in Node.js or WebWorkers where the HTML DOM is not available. To use browser related features got to the [browser project](https://github.com/zxing-js/browser) which extends this library. See a [Live Preview](https://zxing-js.github.io/browser/) in your browser.
 
 **Note:** All the examples are using ES6, be sure is supported in your browser or modify as needed, Chrome recommended.
 
-## Installation
+## Documentation
 
 `npm i @zxing/library --save`
 
@@ -109,7 +109,7 @@ Special thanks to all the contributors who have contributed for this project. We
 
 [![](https://sourcerer.io/fame/odahcam/zxing-js/library/images/0)](https://sourcerer.io/fame/odahcam/zxing-js/library/links/0)[![](https://sourcerer.io/fame/odahcam/zxing-js/library/images/1)](https://sourcerer.io/fame/odahcam/zxing-js/library/links/1)[![](https://sourcerer.io/fame/odahcam/zxing-js/library/images/2)](https://sourcerer.io/fame/odahcam/zxing-js/library/links/2)[![](https://sourcerer.io/fame/odahcam/zxing-js/library/images/3)](https://sourcerer.io/fame/odahcam/zxing-js/library/links/3)[![](https://sourcerer.io/fame/odahcam/zxing-js/library/images/4)](https://sourcerer.io/fame/odahcam/zxing-js/library/links/4)[![](https://sourcerer.io/fame/odahcam/zxing-js/library/images/5)](https://sourcerer.io/fame/odahcam/zxing-js/library/links/5)[![](https://sourcerer.io/fame/odahcam/zxing-js/library/images/6)](https://sourcerer.io/fame/odahcam/zxing-js/library/links/6)[![](https://sourcerer.io/fame/odahcam/zxing-js/library/images/7)](https://sourcerer.io/fame/odahcam/zxing-js/library/links/7)
 
-And a special thanks to [@aleris][3] who created the project itself and made available the initial QR code port.
+And a special thanks to [@aleris][2] who created the project itself and made available the initial QR code port.
 
 ---
 
@@ -117,5 +117,4 @@ And a special thanks to [@aleris][3] who created the project itself and made ava
 
 [0]: https://www.npmjs.com/package/@zxing/library
 [1]: https://github.com/zxing/zxing
-[2]: https://caniuse.com/#feat=bigint
-[3]: https://github.com/aleris
+[2]: https://github.com/aleris

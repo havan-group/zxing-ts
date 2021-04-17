@@ -1,4 +1,4 @@
-import * as sharp from 'sharp';
+import sharp from 'sharp';
 
 import { BitMatrix } from '@zxing/library';
 
@@ -13,13 +13,10 @@ export default class SharpImage {
   ) { }
 
   public static async loadWithRotations(path: string, rotations: number[]): Promise<Map<number, SharpImage>> {
-
     const images = new Map<number, SharpImage>();
 
     for (const rotation of rotations) {
-
       const image = await this.loadWithRotation(path, rotation);
-
       images.set(rotation, image);
     }
 
@@ -27,9 +24,7 @@ export default class SharpImage {
   }
 
   public static async loadWithRotation(path: string, rotation: number): Promise<SharpImage> {
-
     const wrapper = sharp(path).raw();
-
     const metadata = await wrapper.metadata();
 
     if (metadata.channels !== 3 && metadata.space !== 'srgb') {
@@ -44,14 +39,24 @@ export default class SharpImage {
   }
 
   public static load(path: string, rotation: number): SharpImage {
-
     const wrapper = sharp(path).raw();
-
     return new SharpImage(wrapper, undefined, undefined, undefined);
   }
 
-  public static async loadAsBitMatrix(path: string): Promise<BitMatrix> {
+  public static async loadAsync(path: string): Promise<SharpImage> {
 
+    const wrapper = sharp(path).raw();
+
+    const { data, info } = await wrapper.toBuffer({ resolveWithObject: true });
+
+    const width = info.width;
+    const height = info.height;
+    const buffer = SharpImage.toGrayscaleBuffer(new Uint8ClampedArray(data.buffer), info.width, info.height, info.channels);
+
+    return new SharpImage(wrapper, buffer, width, height);
+  }
+
+  public static async loadAsBitMatrix(path: string): Promise<BitMatrix> {
     const wrapper = sharp(path).raw();
     const metadata = await wrapper.metadata();
 
@@ -66,11 +71,20 @@ export default class SharpImage {
     const height = info.height;
     const grayscaleBuffer = SharpImage.toGrayscaleBuffer(new Uint8ClampedArray(data.buffer), width, height, channels);
     // const image = new SharpImage(wrapper, grayscaleBuffer, info.width, info.height)
+
+    return SharpImage.bufferToBitMatrix(grayscaleBuffer, width, height);
+  }
+
+  private static bufferToBitMatrix(
+    imageBuffer: Uint8ClampedArray,
+    width: number,
+    height: number
+  ): BitMatrix {
     const matrix = new BitMatrix(width, height);
 
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
-        const pixel = grayscaleBuffer[y * width + x];
+        const pixel = imageBuffer[y * width + x];
         if (pixel <= 0x7F) {
           matrix.set(x, y);
         }
@@ -81,7 +95,6 @@ export default class SharpImage {
   }
 
   private static toGrayscaleBuffer(imageBuffer: Uint8ClampedArray, width: number, height: number, channels: number): Uint8ClampedArray {
-
     const grayscaleBuffer = new Uint8ClampedArray(width * height);
 
     for (let i = 0, j = 0, length = imageBuffer.length; i < length; i += channels, j++) {
@@ -125,10 +138,6 @@ export default class SharpImage {
     return this.height;
   }
 
-  // public crop(x: number, y: number, width: number, height: number) {
-  //     this.jimpImage.crop(x, y, width, height)
-  // }
-
   public getRow(y: number, row: Uint8ClampedArray): void {
     for (let j = 0, i = y * this.width, end = (y + 1) * this.width; i !== end; i++) {
       row[j++] = this.buffer[i];
@@ -138,18 +147,4 @@ export default class SharpImage {
   public getMatrix(): Uint8ClampedArray {
     return this.buffer;
   }
-
-  // private static getPixelIndex(width: number, height: number, x: number, y: number): number {
-  //     // round input
-  //     x = Math.round(x);
-  //     y = Math.round(y);
-
-  //     let i = (width * y + x) << 2;
-
-  //     // if out of bounds index is -1
-  //     if (x < 0 || x > width) i = -1;
-  //     if (y < 0 || y > height) i = -1;
-
-  //     return i;
-  // }
 }
